@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="cobaco">
+<head>
+  <title>cobaco ui-select</title>
+  <script src="./node_modules/angular/angular.js"></script>
+  <script src="./node_modules/angular-sanitize/angular-sanitize.js"></script>
+  <script src="./node_modules/ui-select/dist/select.js"></script>
+  <script src="./app.js"></script>
+
+  <link rel="stylesheet" href="./node_modules/ui-select/dist/select.css">
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css">
+
+  <style>
+    body {
+        padding: 15px;
+    }
+
+    .select2 > .select2-choice.ui-select-match {
+        /* Because of the inclusion of Bootstrap */
+        height: 29px;
+    }
+
+    .selectize-control > .selectize-dropdown {
+        top: 36px;
+    }
+    /* Some additional styling to demonstrate that append-to-body helps achieve the proper z-index layering. */
+    .select-box {
+      background: #fff;
+      position: relative;
+      z-index: 1;
+    }
+    .alert-info.positioned {
+      margin-top: 1em;
+      position: relative;
+      z-index: 10000; /* The select2 dropdown has a z-index of 9999 */
+    }
+  </style>
+
+</head>
+<body class="ng-cloak" ng-controller="CobacoCtrl as ctrl">
+  <h3>Selectize theme</h3>
+  <p>country: {{ctrl.country}}</p>
+  <p>Selected: {{ctrl.country.selected}}</p>
+  <ui-select ng-model="ctrl.country.selected" ng-disabled="ctrl.disabled" theme="selectize" style="width: 300px;" title="Choose a country">
+    <ui-select-match placeholder="Select or search a country in the list...">{{$select.selected.name}}</ui-select-match>
+    <ui-select-choices repeat="country in ctrl.countries | filter: $select.search">
+      <span ng-bind-html="country.name | highlight: $select.search"></span>
+      <small ng-bind-html="country.code | highlight: $select.search"></small>
+    </ui-select-choices>
+  </ui-select>
+</body>
+</html>
